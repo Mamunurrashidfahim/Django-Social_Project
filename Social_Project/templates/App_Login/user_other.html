@@ -1,0 +1,37 @@
+{% extends 'navbar.html' %}
+{% load crispy_forms_tags %}
+{% block title %} {% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-sm-4">
+        {% if user_other.user_profile.profile_pic %}
+            <img src="/media/{{ user.user_profile.profile_pic }}" alt="" width="250px" height="250px" class="rounded-circle">
+        {% else %}
+            <img src="/media/defult.png" alt="" width="250px" height="250px" class="rounded-circle">
+        {% endif %}
+    </div>
+    <div class="col-sm-8">
+        <h3>{{ user_other.username}} &nbsp; &nbsp; 
+            {% if not already_followed %}
+            <a href="{% url 'App_Login:follow' username=user_other.username %}" class="btn btn-primary">Follow</a>   
+            {% else %}
+            <a href="{% url 'App_Login:unfollow' username=user_other.username %}" class="btn btn-primary">UnFollow</a>   
+            {% endif %}
+                
+        
+        <br>
+        <h4>{{ user_other.post.count }} Posts &nbsp; &nbsp; {{ user_other.following.count }} Followers &nbsp; &nbsp; {{ user_other.follower.count}} Following </h4>
+        <br>
+        <h4>{{ user_other.first_name}} {{ user_other.last_name }}</h4>
+        <h6>{{ user_other.user_profile.description | linebreaks}}</h6>
+    </div>
+</div>
+<hr>
+    <div class="row">
+        {% for post in user_other.post.all %}
+            <img src="/media/{{ post.image }}" alt="" style="width: 300px;">
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
